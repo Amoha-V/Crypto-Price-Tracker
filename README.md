@@ -79,7 +79,7 @@ This project is deployed on Render.
 Access the live application here:
 [CryptoPrice Tracker](https://crypto-price-tracker-fwuw.onrender.com/)
 
-### Start Command (for Render):
+### Start Command :
 ```bash
 web: gunicorn run:app
 ```
@@ -108,5 +108,5 @@ Easily extend the application by:
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](https://opensource.org/licenses/MIT) for more information.
 
