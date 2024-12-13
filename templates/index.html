@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}Crypto Price Tracker - 3D Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    /* Previous floating animation styles remain the same */
+    .crypto-float {
+        animation: float 3s ease-in-out infinite;
+        position: relative;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .floating-element {
+        position: absolute;
+        opacity: 0.6;
+        animation: drift 5s ease-in-out infinite alternate;
+        z-index: 1;
+    }
+
+    @keyframes drift {
+        0% { transform: translate(-10px, 10px) rotate(-5deg); }
+        100% { transform: translate(10px, -10px) rotate(5deg); }
+    }
+
+    .floating-coin-1 {
+        top: 10%;
+        left: 5%;
+        font-size: 2rem;
+    }
+
+    .floating-coin-2 {
+        top: 80%;
+        right: 5%;
+        font-size: 2.5rem;
+    }
+
+    .floating-coin-3 {
+        top: 50%;
+        left: 10%;
+        font-size: 1.8rem;
+    }
+
+    .position-relative {
+        overflow: hidden;
+    }
+
+    /* New styles for interactive table */
+    .crypto-name-link {
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .crypto-name-link:hover {
+        color: #007bff;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="position-relative">
+    <!-- Floating elements for aesthetic animation -->
+    <span class="floating-element floating-coin-1">💰</span>
+    <span class="floating-element floating-coin-2">💵</span>
+    <span class="floating-element floating-coin-3">💸</span>
+
+    <div class="container">
+        <!-- Title section -->
+        <div class="row">
+            <div class="col-md-12 text-center mb-4">
+                <h1 class="text-white crypto-float">💵 Crypto Price Tracker</h1>
+            </div>
+        </div>
+
+        <!-- Price Alert Form -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card bg-dark text-white mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Set Price Alert</h2>
+                        <form id="alertForm">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label for="cryptoSelect" class="form-label">Select Cryptocurrency</label>
+                                    <select id="cryptoSelect" class="form-select">
+                                        <option selected>Choose Cryptocurrency</option>
+                                        <option value="bitcoin">Bitcoin</option>
+                                        <option value="ethereum">Ethereum</option>
+                                        <option value="dogecoin">Dogecoin</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="priceInput" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="priceInput" placeholder="Enter Price">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="conditionSelect" class="form-label">Condition</label>
+                                    <select id="conditionSelect" class="form-select">
+                                        <option selected>Select Condition</option>
+                                        <option value="above">Above</option>
+                                        <option value="below">Below</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        Set Alert 🔔
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Prices Table -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Live Crypto Prices</h2>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-striped" id="livePricesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Cryptocurrency</th>
+                                        <th>Price</th>
+                                        <th>24h Change</th>
+                                        <th>Historical Chart</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url_for('main.historical_prices', coin_id='bitcoin') }}" class="crypto-name-link">
+                                                🔹 Bitcoin
+                                            </a>
+                                        </td>
+                                        <td>$50,123.45</td>
+                                        <td class="text-success">+2.5%</td>
+                                        <td>
+                                            <a href="{{ url_for('main.historical_prices', coin_id='bitcoin') }}" class="btn btn-sm btn-outline-primary">
+                                                View Chart
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url_for('main.historical_prices', coin_id='ethereum') }}" class="crypto-name-link">
+                                                🔷 Ethereum
+                                            </a>
+                                        </td>
+                                        <td>$3,456.78</td>
+                                        <td class="text-danger">-1.2%</td>
+                                        <td>
+                                            <a href="{{ url_for('main.historical_prices', coin_id='ethereum') }}" class="btn btn-sm btn-outline-primary">
+                                                View Chart
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url_for('main.historical_prices', coin_id='dogecoin') }}" class="crypto-name-link">
+                                                🐶 Dogecoin
+                                            </a>
+                                        </td>
+                                        <td>$0.25</td>
+                                        <td class="text-success">+0.8%</td>
+                                        <td>
+                                            <a href="{{ url_for('main.historical_prices', coin_id='dogecoin') }}" class="btn btn-sm btn-outline-primary">
+                                                View Chart
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // You can add dynamic price fetching logic here in future
+        // For now, this is a placeholder for real-time updates
+        const alertForm = document.getElementById('alertForm');
+        
+        alertForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cryptocurrency = document.getElementById('cryptoSelect').value;
+            const price = document.getElementById('priceInput').value;
+            const condition = document.getElementById('conditionSelect').value;
+            
+            // Basic validation
+            if (cryptocurrency === 'Choose Cryptocurrency' || !price || condition === 'Select Condition') {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // You would typically send this to a backend route
+            fetch('/add_alert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cryptocurrency: cryptocurrency,
+                    target_price: parseFloat(price),
+                    condition: condition
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(`Alert set for ${cryptocurrency} at $${price} ${condition}`);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to set alert');
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Historical Prices - {{ coin_id.capitalize() }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bg-dark text-white">
+                <div class="card-header">
+                    <h2 class="text-center">Historical Prices for {{ coin_id.capitalize() }}</h2>
+                </div>
+                <div class="card-body">
+                    {% if chart_data %}
+                    <div id="price-chart" style="width:100%; height:500px;"></div>
+                    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            try {
+                                var chartData = JSON.parse('{{ chart_data | safe }}');
+                                Plotly.newPlot('price-chart', chartData.data, chartData.layout);
+                            } catch (error) {
+                                console.error('Error rendering chart:', error);
+                                document.getElementById('price-chart').innerHTML = 'Error loading chart';
+                            }
+                        });
+                    </script>
+                    {% else %}
+                    <div class="alert alert-warning text-center">
+                        No historical price data available for {{ coin_id.capitalize() }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

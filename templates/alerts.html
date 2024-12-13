@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Active Price Alerts</h1>
+    
+    {% if alerts %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Cryptocurrency</th>
+                <th>Target Price</th>
+                <th>Condition</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+            <tr>
+                <td>{{ alert.cryptocurrency.capitalize() }}</td>
+                <td>${"%.2f"|format(alert.target_price) }}</td>
+                <td>{{ alert.condition.capitalize() }}</td>
+                <td>{{ alert.created_at }}</td>
+                <td>
+                    {% if alert.is_active %}
+                    <span class="badge bg-success">Active</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger delete-alert" data-alert-id="{{ alert.id }}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No active alerts.</p>
+    {% endif %}
+
+    <div class="alert-form mt-4">
+        <h2>Create New Alert</h2>
+        <form id="alert-form">
+            <div class="row">
+                <div class="col-md-4">
+                    <select id="cryptocurrency" class="form-select" required>
+                        <option value="">Select Cryptocurrency</option>
+                        <option value="bitcoin">Bitcoin</option>
+                        <option value="ethereum">Ethereum</option>
+                        <option value="dogecoin">Dogecoin</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" id="target-price" class="form-control" placeholder="Target Price" required>
+                </div>
+                <div class="col-md-3">
+                    <select id="condition" class="form-select" required>
+                        <option value="">Select Condition</option>
+                        <option value="above">Above</option>
+                        <option value="below">Below</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Create Alert</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('alert-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const cryptocurrency = document.getElementById('cryptocurrency').value;
+    const targetPrice = document.getElementById('target-price').value;
+    const condition = document.getElementById('condition').value;
+
+    fetch('/add_alert', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            cryptocurrency: cryptocurrency,
+            target_price: targetPrice,
+            condition: condition
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Optionally, you can reload the page or update the alerts list dynamically
+        window.location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to create alert');
+    });
+});
+
+// Delete alert functionality (to be implemented on the backend)
+document.querySelectorAll('.delete-alert').forEach(button => {
+    button.addEventListener('click', function() {
+        const alertId = this.dataset.alertId;
+        // Implement delete functionality 
+        alert(`Delete alert ${alertId} - to be implemented`);
+    });
+});
+</script>
+{% endblock %}
