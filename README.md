@@ -1,129 +1,112 @@
-CryptoPrice Tracker 
+# CryptoPrice Tracker 
 
-Overview
+## Overview
 
 CryptoPrice Tracker is a web application that allows users to track cryptocurrency prices, set price alerts, and view historical price charts. The application leverages the CoinGecko API to fetch real-time and historical cryptocurrency price data.
 
-Features
+## Features
 
-- Real-time cryptocurrency price tracking
+-  Real-time cryptocurrency price tracking
+-  Live price display for multiple cryptocurrencies
+-  Price alert system
+-  Historical price charts
+-  Support for multiple cryptocurrencies (Bitcoin, Ethereum, Dogecoin)
 
-- Live price display for multiple cryptocurrencies
+## Prerequisites
 
-- Price alert system
+- Python 3.8+
+- pip (Python package manager)
 
-- Historical price charts
+## Installation
 
-- Support for multiple cryptocurrencies (Bitcoin, Ethereum, Dogecoin)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/cryptoprice_tracker.git
+   cd cryptoprice_tracker
+   ```
 
-Prerequisites
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+   ```
 
-Python 3.8+
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-pip (Python package manager)
+4. Set up environment variables:
+   Create a `.env` file in the project root and add any necessary configuration variables.
 
-Installation
+## Project Structure
 
-Clone the repository:
+- `app/`
+  - `models.py`: Defines data models (e.g., PriceAlert)
+  - `routes.py`: Flask route handlers
+  - `services.py`: Business logic for price fetching and alert management
+  - `static/`: Contains static assets (CSS and JavaScript)
+- `templates/`
+  - `base.html`: Base template for consistent styling
+  - `index.html`: Main dashboard template
+  - `prices.html`: Cryptocurrency prices page
+  - `alerts.html`: Alerts management page
+- `config.py`: Application configuration
+- `run.py`: Application entry point
 
-git clone https://github.com/yourusername/cryptoprice_tracker.git
-cd cryptoprice_tracker
+## Configuration
 
-Create a virtual environment:
+Modify `config.py` to customize:
+- Cryptocurrency list
+- API settings
+- Other application configurations
 
-python -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+## Running the Application
 
-Install dependencies:
+1. Start the application locally:
+   ```bash
+   python run.py
+   ```
 
-pip install -r requirements.txt
+2. Open your browser and navigate to:
+   ```
+   http://localhost:5000
+   ```
 
-Set up environment variables:
-Create a .env file in the project root and add any necessary configuration variables.
-
-Project Structure
-
-app/
-
-models.py: Defines data models (e.g., PriceAlert)
-
-routes.py: Flask route handlers
-
-services.py: Business logic for price fetching and alert management
-
-static/: Contains static assets (CSS and JavaScript)
-
-templates/
-
-base.html: Base template for consistent styling
-
-index.html: Main dashboard template
-
-prices.html: Cryptocurrency prices page
-
-alerts.html: Alerts management page
-
-config.py: Application configuration
-
-run.py: Application entry point
-
-Configuration
-
-Modify config.py to customize:
-
-Cryptocurrency list
-
-API settings
-
-Other application configurations
-
-Running the Application
-
-Start the application locally:
-
-python run.py
-
-Open your browser and navigate to:
-
-http://localhost:5000
-
-Deployment
+## Deployment
 
 This project is deployed on Render. 
 Access the live application here:
-CryptoPrice Tracker
+[CryptoPrice Tracker](https://crypto-price-tracker-fwuw.onrender.com/)
 
-Start Command (for Render):
-
+### Start Command (for Render):
+```bash
 web: gunicorn run:app
+```
 
-Key Dependencies
+## Key Dependencies
 
-Flask
+- Flask
+- CoinGecko API
+- Plotly
+- Requests
+- Gunicorn
 
-CoinGecko API
+## Alert System
 
-Plotly
+Users can:
+- Set price alerts for specific cryptocurrencies
+- Choose 'above' or 'below' conditions
+- Receive notifications when price targets are met
 
-Requests
-
-Gunicorn
-
-Alert System
-
-
-Customization
+## Customization
 
 Easily extend the application by:
+- Adding more cryptocurrencies
+- Implementing additional alert conditions
+- Creating more advanced visualization features
 
-Adding more cryptocurrencies
+## License
 
-Implementing additional alert conditions
-
-Creating more advanced visualization features
-
-
-License
-
-Distributed under the MIT License. See LICENSE for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
