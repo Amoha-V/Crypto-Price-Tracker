@@ -79,11 +79,6 @@ This project is deployed on Render.
 Access the live application here:
 [CryptoPrice Tracker](https://crypto-price-tracker-fwuw.onrender.com/)
 
-### Start Command :
-```bash
-web: gunicorn run:app
-```
-
 ## Key Dependencies
 
 - Flask
